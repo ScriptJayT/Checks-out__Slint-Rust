@@ -2,6 +2,9 @@
 
 A template for a Rust application that's using [Slint](https://slint-ui.com) for the user interface.
 
+[Docs](https://slint.dev/releases/1.3.2/docs/slint/)
+
+
 ## About
 
 This template helps you get started developing a Rust application with Slint as toolkit
