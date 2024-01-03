@@ -1,0 +1,169 @@
+import { Button, VerticalBox , HorizontalBox, TabWidget, LineEdit} from "std-widgets.slint";
+
+component StyledStack inherits Rectangle {
+    in property <brush> stack-bg : transparent;
+    in property <length> stack-spacing : 0px;
+    in property <LayoutAlignment> stack-align : start;
+    in property <[length]> stack-padding : [0px, 0px, 0px, 0px];
+
+    background: stack-bg;
+
+    VerticalLayout {
+        alignment: stack-align;
+        spacing: stack-spacing;
+        padding-top: stack-padding[0];
+        padding-left: stack-padding[1];
+        padding-bottom: stack-padding[2];
+        padding-right: stack-padding[3];
+
+        @children
+    }
+}
+
+component StyledButton inherits Rectangle {
+    in property <string> button-text : "button";
+
+    width: max(85px, self.preferred-width);
+    height: self.preferred-height * 1.2;
+    border-width: 1px;
+    border-color: silver;
+    border-radius: 5px;
+
+    Button {
+        text: button-text;
+        width: 100%;
+        height: 100%;
+    }
+}
+
+component NavBar inherits VerticalLayout {
+    in property <string> username : "user";
+
+    spacing: 0;
+    alignment: start;
+
+    StyledStack {
+        stack-bg: rgb(0, 0, 0, 0.2);
+        stack-padding: [7px, 7px, 7px, 7px];
+        
+        Text {
+            text: "Welcome " + username;
+            font-size: 16px;
+            font-italic: true;
+            height: self.preferred-height;
+        }
+    }
+
+    StyledStack {
+        stack-bg: red;
+        stack-spacing: 10px;
+        stack-padding: [15px];
+        
+        StyledButton {
+            button-text: "New PW";
+        }
+        StyledButton {
+            button-text: "Profile";
+        }
+        StyledButton {
+            button-text: "Close";
+        }
+    }
+}
+
+component LabeledInput inherits Rectangle {
+    in property <string> label : "label";
+    in property <string> input-placeholder : "";
+    
+    width: self.preferred-width;
+    height: self.preferred-height;
+    border-width: 1px;
+    border-color: silver;
+    border-radius: 5px;
+    background: rgb(50, 50, 75);
+
+    HorizontalBox {
+        spacing: 0;
+        padding: 0;
+
+        Button {
+            text: label;
+            clicked => {textinput.focus()}
+        }
+        
+        textinput := LineEdit {
+            placeholder-text: input-placeholder;
+            width: self.preferred-width;
+        }
+    }
+}
+
+component Break inherits Rectangle {
+    width: 2px;
+    background: black;
+}
+
+export component AppWindow inherits Window {
+    default-font-family: "monospace";
+    default-font-size: 18px;
+    background: transparent;
+
+    Rectangle {
+        border-radius: 20px;
+        background: rgb(50, 50, 75);
+
+        HorizontalLayout {
+            spacing: 20px;
+            padding: 20px;
+            
+            NavBar {
+                username: "Jace";
+            }
+
+            Break {}
+
+            StyledStack {
+                stack-bg: rgb(0, 0, 0, 0.2);
+                
+                TabWidget {
+                    
+                    Tab {
+                        title: "Tab 0";
+                        
+                        StyledStack {
+                            stack-spacing: 10px;
+                            stack-padding: [15px, 20px, 0px, 20px];
+
+                            LabeledInput {}
+                            LabeledInput {}
+                            LabeledInput {}
+    
+                        }
+                    }
+
+                    Tab {
+                        title: "Tab 1";
+                        StyledStack {}
+                    }
+                    
+                    Tab {
+                        title: "Tab 2";
+                        StyledStack {}
+                    }
+
+                }
+            }
+
+            // Rectangle {
+            //     background: rgb(0, 0, 0, 0.3);
+
+            //     VerticalLayout {
+            //         alignment: start;
+
+                    
+            //     }
+            // }
+        }
+    }
+}
+
