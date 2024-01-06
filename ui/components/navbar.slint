@@ -1,0 +1,44 @@
+import { StyledButton } from "../styled/button.slint";
+import { StyledStack } from "../layouts/stacks.slint";
+
+
+export component NavBar inherits VerticalLayout {
+    in property <string> username : "user";
+
+    callback action-1();
+    callback action-2();
+    callback action-3();
+
+    spacing: 0;
+    alignment: start;
+
+    StyledStack {
+        stack-bg: rgb(0, 0, 0, 0.2);
+        stack-padding: [7px, 7px, 7px, 7px];
+        
+        Text {
+            text: "Welcome " + username;
+            font-size: 16px;
+            font-italic: true;
+            height: self.preferred-height;
+        }
+    }
+
+    StyledStack {
+        stack-spacing: 10px;
+        stack-padding: [15px];
+        
+        StyledButton {
+            button-text: "New PW";
+            button-click => { action-1() }
+        }
+        StyledButton {
+            button-text: "Profile";
+            button-click => { action-2() }
+        }
+        StyledButton {
+            button-text: "Close";
+            button-click => { action-3() }
+        }
+    }
+}

@@ -1,0 +1,28 @@
+import { HorizontalBox , Button, LineEdit} from "std-widgets.slint";
+
+export component LabeledInput inherits Rectangle {
+    in property <string> label : "label";
+    in property <string> input-placeholder : "";
+    
+    width: self.preferred-width;
+    height: self.preferred-height;
+    border-width: 1px;
+    border-color: silver;
+    border-radius: 5px;
+    background: rgb(50, 50, 75);
+
+    HorizontalBox {
+        spacing: 0;
+        padding: 0;
+
+        Button {
+            text: label;
+            clicked => {textinput.focus()}
+        }
+        
+        textinput := LineEdit {
+            placeholder-text: input-placeholder;
+            width: self.preferred-width;
+        }
+    }
+}

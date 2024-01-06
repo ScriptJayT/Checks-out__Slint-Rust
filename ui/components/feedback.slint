@@ -1,0 +1,45 @@
+import { StyledButton } from "../styled/button.slint";
+
+export component Feedback {
+    callback close();
+    in property <length> top;
+    in property <string> out-text: "tests";
+    in property <bool> is-open;
+
+    property <length> offset: self.height - 100px;
+
+    Rectangle {
+        y: is-open ? (top - offset) : top;
+        width: self.preferred-width;
+        height: self.preferred-height;
+        border-width: 2px;
+        border-color: silver;
+        border-radius: 5px;
+        background: black;
+
+        HorizontalLayout {
+            padding-left: 20px;
+            padding-right: 20px;
+            padding-top: 5px;
+            padding-bottom: 5px;
+            spacing: 10px;
+
+            VerticalLayout {
+                alignment: center;
+                
+                Text {
+                    text: out-text;
+                    font-size: 16px;
+                    color: lime;
+                }
+            }
+
+            StyledButton {
+                button-text: "X";
+                button-width: 1px;
+                border: false;
+                button-click => { close() }
+            }
+        }
+    }
+}

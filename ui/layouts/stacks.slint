@@ -1,0 +1,39 @@
+export component StyledStack inherits Rectangle {
+    in property <brush> stack-bg : transparent;
+    in property <length> stack-spacing : 0px;
+    in property <LayoutAlignment> stack-align : start;
+    in property <[length]> stack-padding : [0px, 0px, 0px, 0px];
+
+    background: stack-bg;
+
+    VerticalLayout {
+        alignment: stack-align;
+        spacing: stack-spacing;
+        padding-top: stack-padding[0];
+        padding-left: stack-padding[1];
+        padding-bottom: stack-padding[2];
+        padding-right: stack-padding[3];
+
+        @children
+    }
+}
+
+export component StyledStream inherits Rectangle {
+    in property <brush> stack-bg : transparent;
+    in property <length> stack-spacing : 0px;
+    in property <LayoutAlignment> stack-align : start;
+    in property <[length]> stack-padding : [0px, 0px, 0px, 0px];
+
+    background: stack-bg;
+
+    HorizontalLayout {
+        alignment: stack-align;
+        spacing: stack-spacing;
+        padding-top: stack-padding[0];
+        padding-left: stack-padding[1];
+        padding-bottom: stack-padding[2];
+        padding-right: stack-padding[3];
+
+        @children
+    }
+}

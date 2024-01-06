@@ -1,0 +1,27 @@
+import { Button } from "std-widgets.slint";
+
+export component StyledButton inherits Rectangle {
+    in property <string> button-text : "button";
+    in property <length> button-width : 85px;
+    in property <bool> border: true;
+    callback button-click();
+    
+    property <length> radius: 5px;
+
+    width: max(button-width, self.preferred-width);
+    height: self.preferred-height * 1.2;
+    border-width: border ? 1px : 0px;
+    border-color: silver;
+    border-radius: radius;
+    clip: true;
+    
+    Button {
+        width: 100%;
+        height: 100%;
+        text: button-text;
+
+        clicked => { 
+            button-click();
+        }
+    }
+}
