@@ -1,5 +1,3 @@
-import { TabWidget, LineEdit } from "std-widgets.slint";
-
 import { StyledStack, StyledStream } from "layouts/stacks.slint";
 
 import { StyledButton } from "styled/button.slint";
@@ -10,27 +8,29 @@ import { Feedback } from "components/feedback.slint";
 import { NavBar } from "components/navbar.slint";
 
 export component AppWindow inherits Window {
-    default-font-family: "monospace";
-    default-font-size: 18px;
-    background: transparent;
-
+    //? Feedback
     callback set_feedback(string);
     callback close_feedback();
     in property <string> feedback-out: "Feedback";
     in property <bool> is-open: false;
 
+    default-font-family: "monospace";
+    default-font-size: 18px;
+    background: transparent;
+
     StyledStream {
-        stack-bg: rgb(50, 50, 75);
         stack-spacing: 20px;
         stack-padding: [20px, 20px, 20px, 20px];
+        width: parent.width;
         border-radius: 20px;
+        background: rgb(50, 50, 75);
 
         NavBar {
+            username: "Jace";
+         
             action-1 => {set_feedback("feed")}
             action-2 => {set_feedback("feed 2")}
             action-3 => {set_feedback("feed 3")}
-
-            username: "Jace";
         }
 
         Break {
@@ -39,30 +39,11 @@ export component AppWindow inherits Window {
         }
 
         StyledStack {
-            stack-bg: rgb(0, 0, 0, 0.2);
+            background: rgb(0, 0, 0, 0.2);
             
-            TabWidget {
-                Tab {
-                    title: "Tab 0";
-                    StyledStack {}
-                }
-                Tab {
-                    title: "Tab 1";
-                    StyledStack {
-                        stack-spacing: 10px;
-                        stack-padding: [15px, 20px, 15px, 20px];
-
-                        LabeledInput {}
-                        LabeledInput {}
-                        LabeledInput {}
-
-                    }
-                }
-                Tab {
-                    title: "Tab 2";
-                    StyledStack {}
-                }
-            }
+            LabeledInput {}
+            LabeledInput {}
+            LabeledInput {}
         }
     }
 
@@ -70,6 +51,7 @@ export component AppWindow inherits Window {
         is-open: is-open;
         out-text: feedback-out;
         top: parent.height / 2;
+
         close => { close-feedback() }
     }
 }
