@@ -14,20 +14,23 @@ export component AppWindow inherits Window {
     in property <string> feedback-out: "Feedback";
     in property <bool> is-open: false;
 
+    //? Password
+    callback save_password(string, string);
+
     default-font-family: "monospace";
     default-font-size: 12px; //buttons etc
-    background: transparent;
+    background: rgb(50, 50, 75, 0.95);
 
     StyledStream {
         stack-spacing: 20px;
         stack-padding: [20px, 20px, 20px, 20px];
         min-width: parent.width;
         min-height: parent.height;
-        border-radius: 20px;
-        background: rgb(50, 50, 75);
+        background: transparent;
 
         NavBar {
             username: "Jace";
+
          
             action-1 => {set_feedback("feed")}
             action-2 => {set_feedback("feed 2")}
@@ -44,9 +47,23 @@ export component AppWindow inherits Window {
             stack-spacing: 20px;
             background: rgb(0, 0, 0, 0.2);
             
-            LabeledInput {}
-            LabeledInput {}
-            LabeledInput {}
+            ref := LabeledInput {
+                label: "Reference";
+                label-width: 80px;
+                input-placeholder: "...";
+            }
+            pw := LabeledInput {
+                label: "Password";
+                label-width: 80px;
+                input-placeholder: "...";
+            }
+            StyledButton {
+                button-text: "Save";
+
+                button-click => {
+                    save-password(ref.value, pw.value)
+                }
+            }
         }
    
     }
