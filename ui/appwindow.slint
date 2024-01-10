@@ -30,7 +30,6 @@ export component AppWindow inherits Window {
 
         NavBar {
             username: "Jace";
-
          
             action-1 => {set_feedback("feed")}
             action-2 => {set_feedback("feed 2")}
@@ -60,9 +59,7 @@ export component AppWindow inherits Window {
             StyledButton {
                 button-text: "Save";
 
-                button-click => {
-                    save-password(ref.value, pw.value)
-                }
+                button-click => { save-password(ref.value, pw.value) }
             }
         }
    
