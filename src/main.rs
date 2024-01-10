@@ -7,8 +7,10 @@ use magic_crypt::{MagicCryptTrait, MagicCrypt256};
 slint::include_modules!();
 
 fn main() -> Result<(), slint::PlatformError> {
+    const EDKEY: &str = "magickey";
+    
     let ui: AppWindow = AppWindow::new()?;
-    let encryptor:MagicCrypt256 = new_magic_crypt!("magickey", 256);
+    let encryptor:MagicCrypt256 = new_magic_crypt!(EDKEY, 256);
 
     // user feedback
     let ui_handle = ui.as_weak();
