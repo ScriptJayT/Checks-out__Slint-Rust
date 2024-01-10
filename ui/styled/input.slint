@@ -16,9 +16,6 @@ export component LabeledInput inherits Rectangle {
     background: rgb(50, 50, 75);
 
     HorizontalLayout {
-        alignment: center;
-        spacing: 0;
-        padding: 0;
 
         VerticalLayout {
             alignment: center;
@@ -49,7 +46,6 @@ export component LabeledText inherits Rectangle {
     VerticalLayout {
 
         VerticalLayout {
-            alignment: start;
             padding-left: 10px;
 
             Text {
@@ -67,7 +63,7 @@ export component LabeledText inherits Rectangle {
 
             VerticalLayout {
                 textarea := TextEdit {
-                    width: area-width;
+                    width: area-width + 10px;
                     height: area-width / 2;
                 }
             }
