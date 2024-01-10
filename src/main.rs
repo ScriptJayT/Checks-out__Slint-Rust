@@ -1,9 +1,14 @@
+#[macro_use] extern crate magic_crypt;
+
 use slint::SharedString;
+use magic_crypt::{MagicCryptTrait, MagicCrypt256};
+
 
 slint::include_modules!();
 
 fn main() -> Result<(), slint::PlatformError> {
-    let ui = AppWindow::new()?;
+    let ui: AppWindow = AppWindow::new()?;
+    let encryptor:MagicCrypt256 = new_magic_crypt!("magickey", 256);
 
     // user feedback
     let ui_handle = ui.as_weak();
@@ -43,7 +48,8 @@ fn main() -> Result<(), slint::PlatformError> {
         }
         
         //? encrypt
-        let crypted_pw: &str = cleaned_pw;
+        let crypted_pw: String = encryptor.encrypt_str_to_base64(cleaned_pw);
+        let decrypted_pw: String = encryptor.decrypt_base64_to_string(&crypted_pw).unwrap();
 
         //? return & reply
         let ui: AppWindow = ui_handle.unwrap();
@@ -53,8 +59,8 @@ fn main() -> Result<(), slint::PlatformError> {
         }
         else {
             let debug: String = format!(
-                                    "\n\n\n--Debug--\nOriginal: {}\nCrypted: {}", 
-                                    cleaned_pw, crypted_pw 
+                                    "\n\n\n--Debug--\nOriginal: {}\nCrypted: {}\nDecrypted: {}", 
+                                    cleaned_pw, crypted_pw, decrypted_pw 
                                 );
 
             let res: String = format!(
