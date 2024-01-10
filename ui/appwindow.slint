@@ -11,7 +11,7 @@ export component AppWindow inherits Window {
     //? Feedback
     callback set_feedback(string);
     callback close_feedback();
-    in property <string> feedback-out: "Feedback";
+    in property <string> feedback-out: "Feedback to test a long item \n test it no \n dearoa";
     in property <bool> is-open: false;
 
     default-font-family: "monospace";
@@ -21,7 +21,8 @@ export component AppWindow inherits Window {
     StyledStream {
         stack-spacing: 20px;
         stack-padding: [20px, 20px, 20px, 20px];
-        width: parent.width;
+        min-width: parent.width;
+        min-height: parent.height;
         border-radius: 20px;
         background: rgb(50, 50, 75);
 
@@ -39,14 +40,17 @@ export component AppWindow inherits Window {
         }
 
         StyledStack {
+            min-width: 500px;
+            stack-spacing: 20px;
             background: rgb(0, 0, 0, 0.2);
             
             LabeledInput {}
             LabeledInput {}
             LabeledInput {}
         }
+   
     }
-
+   
     Feedback {
         is-open: is-open;
         out-text: feedback-out;

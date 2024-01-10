@@ -6,38 +6,35 @@ export component Feedback {
     in property <string> out-text: "tests";
     in property <bool> is-open;
 
-    property <length> offset: self.height - 100px;
+    property <length> offset: top - 5px;
 
     Rectangle {
-        y: is-open ? (top - offset) : top;
+        y: is-open ? 0 - offset : top;
         width: self.preferred-width;
         height: self.preferred-height;
         border-width: 2px;
         border-color: silver;
         border-radius: 5px;
         background: black;
+        clip: true;
 
         HorizontalLayout {
             padding-left: 20px;
             padding-right: 20px;
-            padding-top: 5px;
-            padding-bottom: 5px;
+            padding-top: 7.5px;
+            padding-bottom: 10px;
             spacing: 10px;
 
-            VerticalLayout {
-                alignment: center;
-                
-                Text {
-                    text: out-text;
-                    font-size: 16px;
-                    color: lime;
-                }
+            Text {
+                text: out-text;
+                font-size: 16px;
+                color: lime;
             }
 
             StyledButton {
                 button-text: "X";
-                button-width: 1px;
-                border: false;
+                button-width: 0px;
+
                 button-click => { close() }
             }
         }
