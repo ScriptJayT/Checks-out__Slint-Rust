@@ -47,11 +47,13 @@ export component AppWindow inherits Window {
             background: rgb(0, 0, 0, 0.2);
             
             ref := LabeledInput {
+                required: true;
                 label: "Reference";
                 label-width: 80px;
                 input-placeholder: "...";
             }
             pw := LabeledInput {
+                required: true;
                 label: "Password";
                 label-width: 80px;
                 input-placeholder: "...";

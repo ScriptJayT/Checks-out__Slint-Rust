@@ -1,12 +1,15 @@
 import { HorizontalBox , Button, LineEdit, TextEdit} from "std-widgets.slint";
 
 export component LabeledInput inherits Rectangle {
-    in property <string> label : "label";
+    in property <bool> required: false;
+    in property <string> label: "label";
     in property <length> label-width: 0;
     in property <string> input-placeholder : "";
     in property <length> input-width: label-width * 2;
     
     out property <string> value: textinput.text;
+
+    property <string> label-name: required ? label + "*" : label;
 
     width: self.preferred-width;
     height: self.preferred-height;
@@ -23,7 +26,7 @@ export component LabeledInput inherits Rectangle {
 
             Text {
                 min-width: max(self.preferred-width, label-width);
-                text: label;
+                text: label-name;
             }
         }
         
@@ -37,6 +40,7 @@ export component LabeledInput inherits Rectangle {
 export component LabeledText inherits Rectangle {
     in property <string> label : "label";
     in property <length> area-width: 0;
+    in property <bool> required: false;
 
     out property <string> value: textarea.text;
     
