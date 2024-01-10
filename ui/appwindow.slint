@@ -6,6 +6,7 @@ import { Break } from "styled/break.slint";
 
 import { Feedback } from "components/feedback.slint";
 import { NavBar } from "components/navbar.slint";
+import { TextEdit } from "std-widgets.slint";
 
 export component AppWindow inherits Window {
     //? Feedback
@@ -15,7 +16,7 @@ export component AppWindow inherits Window {
     in property <bool> is-open: false;
 
     //? Password
-    callback save_password(string, string);
+    callback save_password(string, string, string);
 
     default-font-family: "monospace";
     default-font-size: 12px; //buttons etc
@@ -56,13 +57,16 @@ export component AppWindow inherits Window {
                 label-width: 80px;
                 input-placeholder: "...";
             }
+            descr := TextEdit {
+                width: 240px;
+                height: 100px;
+            }
             StyledButton {
                 button-text: "Save";
 
-                button-click => { save-password(ref.value, pw.value) }
+                button-click => { save-password(ref.value, pw.value, descr.text) }
             }
         }
-   
     }
    
     Feedback {
