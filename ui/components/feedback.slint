@@ -25,12 +25,17 @@ export component Feedback {
             padding-bottom: 10px;
             spacing: 10px;
 
-            Text {
-                text: out-text;
-                font-size: 16px;
-                color: lime;
-            }
+            VerticalLayout {
+                alignment: center;
 
+                Text {
+                    text: out-text;
+                    font-size: 16px;
+                    color: lime;
+                    min-width: 150px;
+                }
+            }
+            
             StyledButton {
                 button-text: "X";
                 button-width: 0px;

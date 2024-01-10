@@ -11,11 +11,11 @@ export component AppWindow inherits Window {
     //? Feedback
     callback set_feedback(string);
     callback close_feedback();
-    in property <string> feedback-out: "Feedback to test a long item \n test it no \n dearoa";
+    in property <string> feedback-out: "Feedback";
     in property <bool> is-open: false;
 
     default-font-family: "monospace";
-    default-font-size: 18px;
+    default-font-size: 12px; //buttons etc
     background: transparent;
 
     StyledStream {
