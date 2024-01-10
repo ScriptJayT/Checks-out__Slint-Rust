@@ -1,12 +1,11 @@
 import { StyledStack, StyledStream } from "layouts/stacks.slint";
 
 import { StyledButton } from "styled/button.slint";
-import { LabeledInput } from "styled/labeled-input.slint";
+import { LabeledInput, LabeledText } from "styled/input.slint";
 import { Break } from "styled/break.slint";
 
 import { Feedback } from "components/feedback.slint";
 import { NavBar } from "components/navbar.slint";
-import { TextEdit } from "std-widgets.slint";
 
 export component AppWindow inherits Window {
     //? Feedback
@@ -57,14 +56,14 @@ export component AppWindow inherits Window {
                 label-width: 80px;
                 input-placeholder: "...";
             }
-            descr := TextEdit {
-                width: 240px;
-                height: 100px;
+            descr := LabeledText {
+                label: "Description";
+                area-width: 240px;
             }
             StyledButton {
                 button-text: "Save";
 
-                button-click => { save-password(ref.value, pw.value, descr.text) }
+                button-click => { save-password(ref.value, pw.value, descr.value) }
             }
         }
     }

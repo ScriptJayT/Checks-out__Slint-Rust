@@ -1,0 +1,76 @@
+import { HorizontalBox , Button, LineEdit, TextEdit} from "std-widgets.slint";
+
+export component LabeledInput inherits Rectangle {
+    in property <string> label : "label";
+    in property <length> label-width: 0;
+    in property <string> input-placeholder : "";
+    in property <length> input-width: label-width * 2;
+    
+    out property <string> value: textinput.text;
+
+    width: self.preferred-width;
+    height: self.preferred-height;
+    border-width: 1px;
+    border-color: silver;
+    border-radius: 5px;
+    background: rgb(50, 50, 75);
+
+    HorizontalLayout {
+        alignment: center;
+        spacing: 0;
+        padding: 0;
+
+        VerticalLayout {
+            alignment: center;
+            padding-left: 10px;
+
+            Text {
+                min-width: max(self.preferred-width, label-width);
+                text: label;
+            }
+        }
+        
+        textinput := LineEdit {
+            placeholder-text: input-placeholder;
+            width: max(self.preferred-width, input-width);
+        }
+    }
+}
+
+export component LabeledText inherits Rectangle {
+    in property <string> label : "label";
+    in property <length> area-width: 0;
+
+    out property <string> value: textarea.text;
+    
+    width: self.preferred-width;
+    height: self.preferred-height;
+
+    VerticalLayout {
+
+        VerticalLayout {
+            alignment: start;
+            padding-left: 10px;
+
+            Text {
+                text: label;
+                font-size: 13px;
+                height: self.preferred-height * 1.2;
+            }
+        }
+
+        Rectangle {
+            border-width: 1px;
+            border-color: silver;
+            border-radius: 5px;
+            background: rgb(50, 50, 75);
+
+            VerticalLayout {
+                textarea := TextEdit {
+                    width: area-width;
+                    height: area-width / 2;
+                }
+            }
+        }
+    }
+}

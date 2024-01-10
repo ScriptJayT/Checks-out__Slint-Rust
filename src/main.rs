@@ -52,10 +52,13 @@ fn main() -> Result<(), slint::PlatformError> {
             ui.set_feedback_out(res.into());
         }
         else {
-            let debug: String = format!("\n\n--Debug--\nOriginal: {}\nCrypted: {}", cleaned_pw, crypted_pw );
+            let debug: String = format!(
+                                    "\n\n\n--Debug--\nOriginal: {}\nCrypted: {}", 
+                                    cleaned_pw, crypted_pw 
+                                );
 
             let res: String = format!(
-                                "Password saved for: `{}`\nwith:\n{}\n{}", 
+                                "Password saved for: `{}`\nwith:\n{}{}", 
                                 cleaned_ref, cleaned_descr, debug
                             );
             ui.set_feedback_out(res.into());
