@@ -1,7 +1,8 @@
 #[macro_use] extern crate magic_crypt;
+use magic_crypt::{MagicCryptTrait, MagicCrypt256};
 
 use slint::SharedString;
-use magic_crypt::{MagicCryptTrait, MagicCrypt256};
+use slint::Weak;
 
 
 slint::include_modules!();
@@ -13,21 +14,27 @@ fn main() -> Result<(), slint::PlatformError> {
     let encryptor:MagicCrypt256 = new_magic_crypt!(EDKEY, 256);
 
     // user feedback
-    let ui_handle = ui.as_weak();
+    let ui_handle:Weak<AppWindow> = ui.as_weak();
     ui.on_close_feedback(move || {
         let ui: AppWindow = ui_handle.unwrap();
         ui.set_feedback_out("feedback reset".into());
         ui.set_is_open(false.into());
     });
-    let ui_handle = ui.as_weak();
+    let ui_handle:Weak<AppWindow> = ui.as_weak();
     ui.on_set_feedback(move |_msg: SharedString| {
         let ui: AppWindow = ui_handle.unwrap();
         ui.set_feedback_out(_msg.into());
         ui.set_is_open(true.into());
     });
+
+    // close window
+    ui.on_close_window(move || {
+        std::process::exit(200);
+    });
     
     // save & encrypt passwords
-    let ui_handle = ui.as_weak();
+    // todo: save to file
+    let ui_handle:Weak<AppWindow> = ui.as_weak();
     ui.on_save_password(move |_ref: SharedString, _pw: SharedString, _descr: SharedString| {
         let mut has_error: bool = false;
         let mut error: [_; 2] = ["", ""];
