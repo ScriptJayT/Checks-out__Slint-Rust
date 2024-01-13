@@ -11,5 +11,8 @@ build = "build.rs"
 slint = "1.0"
 magic-crypt = "3.1.9"
 
+[dependencies.passwords]
+version = "*"
+
 [build-dependencies]
 slint-build = "1.0"

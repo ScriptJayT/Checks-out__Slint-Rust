@@ -66,8 +66,8 @@ export component AppWindow inherits Window {
                 input-placeholder: "...";
 
                 StyledButton {
-                    button-text: "Gen";
-                    width: self.preferred-width;
+                    button-text: "X";
+                    width: 40px;
                     border-width: 0px;
                     button-click => { generate_password() }
                 }
@@ -75,7 +75,7 @@ export component AppWindow inherits Window {
             }
             descr := LabeledText {
                 label: "Description";
-                area-width: 240px;
+                area-width: 280px;
             }
             StyledButton {
                 button-text: "Save";

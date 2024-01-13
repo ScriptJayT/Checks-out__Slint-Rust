@@ -1,19 +1,38 @@
 #[macro_use] extern crate magic_crypt;
 use magic_crypt::{MagicCryptTrait, MagicCrypt256};
+use passwords::PasswordGenerator;
 
 use slint::SharedString;
 use slint::Weak;
 
-
 slint::include_modules!();
 
 fn main() -> Result<(), slint::PlatformError> {
+    // --!Variables--
+
     const EDKEY: &str = "magickey";
     
     let ui: AppWindow = AppWindow::new()?;
+    let pg: PasswordGenerator = PasswordGenerator {
+        length: 12,
+        numbers: true,
+        lowercase_letters: true,
+        uppercase_letters: true,
+        symbols: true,
+        spaces: false,
+        exclude_similar_characters: false,
+        strict: true,
+    };
     let encryptor:MagicCrypt256 = new_magic_crypt!(EDKEY, 256);
 
-    // user feedback
+    // --!Events--
+
+    // ?Close window
+     ui.on_close_window(move || {
+        std::process::exit(200);
+    });
+
+    // ?User feedback
     let ui_handle:Weak<AppWindow> = ui.as_weak();
     ui.on_close_feedback(move || {
         let ui: AppWindow = ui_handle.unwrap();
@@ -27,21 +46,15 @@ fn main() -> Result<(), slint::PlatformError> {
         ui.set_is_open(true.into());
     });
 
-    // close window
-    ui.on_close_window(move || {
-        std::process::exit(200);
-    });
-    
-    // generate passwords
-    // todo: generate secure pw
+    // ?Passwords
+    // generate
     let ui_handle:Weak<AppWindow> = ui.as_weak();
     ui.on_generate_password(move || {
         let ui: AppWindow = ui_handle.unwrap();
-        ui.set_suggested_password("newlygenerated".into());
-        ui.set_feedback_out("Generated Password".into());
-        ui.set_is_open(true.into());
+        let new_pw: String = pg.generate_one().unwrap();
+        ui.set_suggested_password(new_pw.into());
     });
-    // save & encrypt passwords
+    // save & encrypt
     // todo: save to file
     let ui_handle:Weak<AppWindow> = ui.as_weak();
     ui.on_save_password(move |_ref: SharedString, _pw: SharedString, _descr: SharedString| {
@@ -90,6 +103,7 @@ fn main() -> Result<(), slint::PlatformError> {
         
         ui.set_is_open(true.into());
     });
+    // show
 
     ui.run()
 }
