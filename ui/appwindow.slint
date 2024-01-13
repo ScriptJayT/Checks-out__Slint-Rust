@@ -8,20 +8,20 @@ import { Feedback } from "components/feedback.slint";
 import { NavBar } from "components/navbar.slint";
 
 export component AppWindow inherits Window {
-    //? Feedback
+    // !Logic
+    // ?Feedback
     callback set_feedback(string);
     callback close_feedback();
     in property <string> feedback-out: "Feedback";
     in property <bool> is-open: false;
-    
-    //? Close
+    // ?Close
     callback close_window();
-    
-    //? Password
+    // ?Password
     callback generate_password();
     in property <string> suggested-password: "";
     callback save_password(string, string, string);
 
+    // !Markup
     default-font-family: "monospace";
     default-font-size: 12px; //buttons etc
     background: rgb(50, 50, 75, 0.95);
