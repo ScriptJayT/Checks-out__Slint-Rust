@@ -1,16 +1,20 @@
+use std::fs::File;
+use std::path::Path;
+use std::io::BufReader;
+use std::io::prelude::*;
+
 #[macro_use] extern crate magic_crypt;
 use magic_crypt::{MagicCryptTrait, MagicCrypt256};
 use passwords::PasswordGenerator;
 
 use slint::SharedString;
 use slint::Weak;
-
 slint::include_modules!();
 
 fn main() -> Result<(), slint::PlatformError> {
     // --!Variables--
-
     const EDKEY: &str = "magickey";
+    const BINPATH: &str = "data-bin/";
     
     let ui: AppWindow = AppWindow::new()?;
     let pg: PasswordGenerator = PasswordGenerator {
@@ -25,13 +29,36 @@ fn main() -> Result<(), slint::PlatformError> {
     };
     let encryptor:MagicCrypt256 = new_magic_crypt!(EDKEY, 256);
 
-    // --!Events--
+    // --!Render--
+    let account_file: &String = &format!("{}foo.txt", BINPATH);
+    let account_setup: bool = Path::new(account_file).exists();
 
+    let render_msg: String;
+    if account_setup {
+        let file = File::open(account_file).unwrap();
+        let mut buf_reader = BufReader::new(file);
+        let mut contents = String::new();
+        buf_reader.read_to_string(&mut contents).unwrap();
+
+        render_msg = format!("reading: {}", contents);
+    }
+    else {
+        let mut file = File::create(account_file).unwrap();
+        file.write_all(b"Hello, world!").unwrap();
+
+        render_msg = format!("setup");
+    }
+
+    // --!Load--
+    let ui_handle:Weak<AppWindow> = ui.as_weak();
+    let ui_init: AppWindow = ui_handle.unwrap();
+    ui_init.set_read_items(render_msg.into());
+
+    // --!Events--
     // ?Close window
-     ui.on_close_window(move || {
+    ui.on_close_window(move || {
         std::process::exit(200);
     });
-
     // ?User feedback
     let ui_handle:Weak<AppWindow> = ui.as_weak();
     ui.on_close_feedback(move || {
@@ -45,7 +72,6 @@ fn main() -> Result<(), slint::PlatformError> {
         ui.set_feedback_out(_msg.into());
         ui.set_is_open(true.into());
     });
-
     // ?Passwords
     // generate
     let ui_handle:Weak<AppWindow> = ui.as_weak();
@@ -103,7 +129,6 @@ fn main() -> Result<(), slint::PlatformError> {
         
         ui.set_is_open(true.into());
     });
-    // show
 
     ui.run()
 }

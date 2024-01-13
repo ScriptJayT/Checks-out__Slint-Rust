@@ -1,9 +1,11 @@
 export component Break {
+    in property <bool> horizontal: true;
     in property <brush> color: black;
     in property <length> thickness: 2px;
 
     Rectangle {
-        width: thickness;
+        width: horizontal ? parent.width : thickness;
+        height: horizontal ? thickness : parent.height;
         background: color;
     }
 }

@@ -6,9 +6,13 @@ import { Break } from "styled/break.slint";
 
 import { Feedback } from "components/feedback.slint";
 import { NavBar } from "components/navbar.slint";
+import { TextEdit } from "std-widgets.slint";
 
 export component AppWindow inherits Window {
     // !Logic
+    // ?First render
+    callback load();
+    in property <string> read-items;
     // ?Feedback
     callback set_feedback(string);
     callback close_feedback();
@@ -45,6 +49,7 @@ export component AppWindow inherits Window {
         Break {
             color: silver;
             thickness: 1px;
+            horizontal: false;
         }
 
         StyledStack {
@@ -74,6 +79,15 @@ export component AppWindow inherits Window {
             StyledButton {
                 button-text: "Save";
                 button-click => { save-password(ref.value, pw.value, descr.value) }
+            }
+
+            Break {
+                color: red;
+                thickness: 2px;
+            }
+
+            Text {
+                text: read-items;
             }
         }
     }
