@@ -1,4 +1,5 @@
 import { HorizontalBox , Button, LineEdit, TextEdit} from "std-widgets.slint";
+import { StyledButton } from "button.slint";
 
 export component LabeledInput inherits Rectangle {
     in property <bool> required: false;
@@ -39,6 +40,19 @@ export component LabeledInput inherits Rectangle {
 
         @children
     }
+}
+
+export component FillableInput inherits LabeledInput {
+    in property <int> name;
+    callback fill();
+
+    StyledButton {
+        button-text: "◯";
+        // ⁐◌◆◉◯Ⅹ⊚⨀⌖⨁⨝
+        width: min(40px, self.preferred-width);
+        border-width: 0px;
+        button-click => { fill() }
+    }    
 }
 
 export component LabeledText inherits Rectangle {

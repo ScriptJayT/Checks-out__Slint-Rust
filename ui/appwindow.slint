@@ -1,7 +1,7 @@
 import { StyledStack, StyledStream } from "layouts/stacks.slint";
 
 import { StyledButton } from "styled/button.slint";
-import { LabeledInput, LabeledText } from "styled/input.slint";
+import { LabeledInput, FillableInput, LabeledText } from "styled/input.slint";
 import { Break } from "styled/break.slint";
 
 import { Feedback } from "components/feedback.slint";
@@ -58,20 +58,14 @@ export component AppWindow inherits Window {
                 label-width: 80px;
                 input-placeholder: "...";
             }
-            pw := LabeledInput {
+            pw := FillableInput {
                 required: true;
                 label: "Password";
                 input: suggested-password;
                 label-width: 80px;
                 input-placeholder: "...";
 
-                StyledButton {
-                    button-text: "X";
-                    width: 40px;
-                    border-width: 0px;
-                    button-click => { generate_password() }
-                }
-
+                fill => { generate-password() }
             }
             descr := LabeledText {
                 label: "Description";
