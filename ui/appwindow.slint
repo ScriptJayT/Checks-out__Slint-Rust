@@ -14,6 +14,9 @@ export component AppWindow inherits Window {
     in property <string> feedback-out: "Feedback";
     in property <bool> is-open: false;
 
+    //? Close
+    callback close_window();
+
     //? Password
     callback save_password(string, string, string);
 
@@ -31,9 +34,10 @@ export component AppWindow inherits Window {
         NavBar {
             username: "Jace";
          
-            action-1 => {set_feedback("feed")}
-            action-2 => {set_feedback("feed 2")}
-            action-3 => {set_feedback("feed 3")}
+            StyledButton {
+                button-text: "Close";
+                button-click => { close-window() }
+            }
         }
 
         Break {

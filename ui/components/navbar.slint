@@ -30,17 +30,6 @@ export component NavBar inherits VerticalLayout {
         stack-padding: [15px];
         background: transparent;
         
-        StyledButton {
-            button-text: "New PW";
-            button-click => { action-1() }
-        }
-        StyledButton {
-            button-text: "Profile";
-            button-click => { action-2() }
-        }
-        StyledButton {
-            button-text: "Close";
-            button-click => { action-3() }
-        }
+        @children
     }
 }
