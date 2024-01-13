@@ -32,6 +32,15 @@ fn main() -> Result<(), slint::PlatformError> {
         std::process::exit(200);
     });
     
+    // generate passwords
+    // todo: generate secure pw
+    let ui_handle:Weak<AppWindow> = ui.as_weak();
+    ui.on_generate_password(move || {
+        let ui: AppWindow = ui_handle.unwrap();
+        ui.set_suggested_password("newlygenerated".into());
+        ui.set_feedback_out("Generated Password".into());
+        ui.set_is_open(true.into());
+    });
     // save & encrypt passwords
     // todo: save to file
     let ui_handle:Weak<AppWindow> = ui.as_weak();

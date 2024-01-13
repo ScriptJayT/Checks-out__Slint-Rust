@@ -13,11 +13,13 @@ export component AppWindow inherits Window {
     callback close_feedback();
     in property <string> feedback-out: "Feedback";
     in property <bool> is-open: false;
-
+    
     //? Close
     callback close_window();
-
+    
     //? Password
+    callback generate_password();
+    in property <string> suggested-password: "";
     callback save_password(string, string, string);
 
     default-font-family: "monospace";
@@ -59,12 +61,15 @@ export component AppWindow inherits Window {
             pw := LabeledInput {
                 required: true;
                 label: "Password";
+                input: suggested-password;
                 label-width: 80px;
                 input-placeholder: "...";
 
                 StyledButton {
                     button-text: "Gen";
-                    padding: 0;
+                    width: self.preferred-width;
+                    border-width: 0px;
+                    button-click => { generate_password() }
                 }
 
             }
@@ -74,7 +79,6 @@ export component AppWindow inherits Window {
             }
             StyledButton {
                 button-text: "Save";
-
                 button-click => { save-password(ref.value, pw.value, descr.value) }
             }
         }

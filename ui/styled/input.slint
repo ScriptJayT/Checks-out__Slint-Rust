@@ -2,6 +2,7 @@ import { HorizontalBox , Button, LineEdit, TextEdit} from "std-widgets.slint";
 
 export component LabeledInput inherits Rectangle {
     in property <bool> required: false;
+    in property <string> input: "";
     in property <string> label: "label";
     in property <length> label-width: 0;
     in property <string> input-placeholder : "";
@@ -31,9 +32,12 @@ export component LabeledInput inherits Rectangle {
         }
         
         textinput := LineEdit {
+            text: input;
             placeholder-text: input-placeholder;
             width: max(self.preferred-width, input-width);
         }
+
+        @children
     }
 }
 
