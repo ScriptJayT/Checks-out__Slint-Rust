@@ -87,12 +87,12 @@ fn main() -> Result<(), slint::PlatformError> {
         let mut has_error: bool = false;
         let mut error: [_; 2] = ["", ""];
         
-        //? clean values
+        // ?clean values
         let cleaned_ref: &str = _ref.trim();
         let cleaned_pw: &str = _pw.trim();
         let cleaned_descr: &str = _descr.trim();
 
-        //? check if valid inputs
+        // ?check if valid inputs
         let valid_ref: bool = cleaned_ref.chars().count() > 1;
         let valid_pw: bool = cleaned_pw.chars().count() > 1;
         if !valid_ref  {
@@ -103,23 +103,38 @@ fn main() -> Result<(), slint::PlatformError> {
             has_error = true;
             error[1] = " - `Password` needs to be filled in";
         }
-        
-        //? encrypt
-        let crypted_pw: String = encryptor.encrypt_str_to_base64(cleaned_pw);
-        let decrypted_pw: String = encryptor.decrypt_base64_to_string(&crypted_pw).unwrap();
 
-        //? return & reply
         let ui: AppWindow = ui_handle.unwrap();
         if has_error {
+            // ?return early
             let res: String = format!("Error: \n{}", error.join("\n").trim());
             ui.set_feedback_out(res.into());
         }
         else {
+            // ?encrypt
+            let crypted_pw: String = encryptor.encrypt_str_to_base64(cleaned_pw);
+            let decrypted_pw: String = encryptor.decrypt_base64_to_string(&crypted_pw).unwrap();
+
+            let afile= &format!("{}foo.txt", BINPATH);
+            // ?read file
+            let contentfile = File::open(afile).unwrap();
+            let mut buf_reader = BufReader::new(contentfile);
+            let mut contents = String::new();
+            buf_reader.read_to_string(&mut contents).unwrap();
+
+            // ?write to file
+            contents.push_str(format!(
+                                "\n{{ {} -sep- {} -sep- {} -sep- }}", 
+                                cleaned_ref, crypted_pw, cleaned_descr
+                            ).as_str());
+            let mut file = File::create(afile).unwrap();
+            file.write_all(contents.as_bytes()).unwrap();
+
+            // ?user feedback
             let debug: String = format!(
                                     "\n\n\n--Debug--\nOriginal: {}\nCrypted: {}\nDecrypted: {}", 
                                     cleaned_pw, crypted_pw, decrypted_pw 
                                 );
-
             let res: String = format!(
                                 "Password saved for: `{}`\nwith:\n{}{}", 
                                 cleaned_ref, cleaned_descr, debug

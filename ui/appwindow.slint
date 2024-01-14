@@ -24,6 +24,7 @@ export component AppWindow inherits Window {
     callback generate_password();
     in property <string> suggested-password: "";
     callback save_password(string, string, string);
+    callback copy_password(string);
 
     // !Markup
     default-font-family: "monospace";
@@ -83,7 +84,6 @@ export component AppWindow inherits Window {
 
             Break {
                 color: red;
-                thickness: 2px;
             }
 
             Text {
