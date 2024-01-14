@@ -11,10 +11,17 @@ use slint::SharedString;
 use slint::Weak;
 slint::include_modules!();
 
+// fn read_file(_path: String) {
+//     let file = File::open(_path).unwrap();
+//     let mut buf_reader = BufReader::new(file);
+//     let mut contents = String::new();
+//     buf_reader.read_to_string(&mut contents).unwrap();
+// }
+
 fn main() -> Result<(), slint::PlatformError> {
     // --!Variables--
     const EDKEY: &str = "magickey";
-    const BINPATH: &str = "data-bin/";
+    const BINPATH: &str = "data-bin/"; //replace to bin for production-code
     
     let ui: AppWindow = AppWindow::new()?;
     let pg: PasswordGenerator = PasswordGenerator {
@@ -29,30 +36,26 @@ fn main() -> Result<(), slint::PlatformError> {
     };
     let encryptor:MagicCrypt256 = new_magic_crypt!(EDKEY, 256);
 
-    // --!Render--
-    let account_file: &String = &format!("{}foo.txt", BINPATH);
-    let account_setup: bool = Path::new(account_file).exists();
-
+    // --!Load--
+    let account_file: &String = &format!("{}account.txt", BINPATH);
+    let crypt_file: &String = &format!("{}crypt.txt", BINPATH);
+    let account_setup: bool = Path::new(account_file).exists() && Path::new(crypt_file).exists();
     let render_msg: String;
-    if account_setup {
-        let file = File::open(account_file).unwrap();
-        let mut buf_reader = BufReader::new(file);
-        let mut contents = String::new();
-        buf_reader.read_to_string(&mut contents).unwrap();
-
-        render_msg = format!("reading: {}", contents);
+    let current_user: String;
+    if !account_setup {
+        File::create(account_file).unwrap();
+        File::create(crypt_file).unwrap();
+        render_msg = format!("Welcome, files are build");
+        current_user = format!("");
     }
     else {
-        let mut file = File::create(account_file).unwrap();
-        file.write_all(b"Hello, world!").unwrap();
-
-        render_msg = format!("setup");
+        render_msg = format!("Welcome back");
+        current_user = format!("Jace");
     }
-
-    // --!Load--
     let ui_handle:Weak<AppWindow> = ui.as_weak();
     let ui_init: AppWindow = ui_handle.unwrap();
     ui_init.set_read_items(render_msg.into());
+    ui_init.set_user_name(current_user.into());
 
     // --!Events--
     // ?Close window
@@ -86,8 +89,9 @@ fn main() -> Result<(), slint::PlatformError> {
     ui.on_save_password(move |_ref: SharedString, _pw: SharedString, _descr: SharedString| {
         let mut has_error: bool = false;
         let mut error: [_; 2] = ["", ""];
-        
+
         // ?clean values
+        // todo json clean
         let cleaned_ref: &str = _ref.trim();
         let cleaned_pw: &str = _pw.trim();
         let cleaned_descr: &str = _descr.trim();
@@ -115,7 +119,7 @@ fn main() -> Result<(), slint::PlatformError> {
             let crypted_pw: String = encryptor.encrypt_str_to_base64(cleaned_pw);
             let decrypted_pw: String = encryptor.decrypt_base64_to_string(&crypted_pw).unwrap();
 
-            let afile= &format!("{}foo.txt", BINPATH);
+            let afile= &format!("{}crypts.txt", BINPATH);
             // ?read file
             let contentfile = File::open(afile).unwrap();
             let mut buf_reader = BufReader::new(contentfile);
@@ -124,7 +128,7 @@ fn main() -> Result<(), slint::PlatformError> {
 
             // ?write to file
             contents.push_str(format!(
-                                "\n{{ {} -sep- {} -sep- {} -sep- }}", 
+                                "\n{{ 'ref': '{}', 'crypt': '{}', 'descr': '{}' }}", 
                                 cleaned_ref, crypted_pw, cleaned_descr
                             ).as_str());
             let mut file = File::create(afile).unwrap();

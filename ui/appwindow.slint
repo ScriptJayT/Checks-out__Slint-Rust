@@ -13,6 +13,7 @@ export component AppWindow inherits Window {
     // ?First render
     callback load();
     in property <string> read-items;
+    in property <string> user-name: "";
     // ?Feedback
     callback set_feedback(string);
     callback close_feedback();
@@ -39,7 +40,7 @@ export component AppWindow inherits Window {
         background: transparent;
 
         NavBar {
-            username: "Jace";
+            username: user-name;
          
             StyledButton {
                 button-text: "Close";
