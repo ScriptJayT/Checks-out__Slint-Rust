@@ -21,11 +21,6 @@ export component AppWindow inherits Window {
     in property <bool> is-open: false;
     // ?Close
     callback close_window();
-    // ?Password
-    callback generate_password();
-    in property <string> suggested-password: "";
-    callback save_password(string, string, string);
-    callback copy_password(string);
 
     // !Markup
     default-font-family: "monospace";
@@ -41,7 +36,7 @@ export component AppWindow inherits Window {
 
         NavBar {
             username: user-name;
-         
+        
             StyledButton {
                 button-text: "Close";
                 button-click => { close-window() }
@@ -54,45 +49,18 @@ export component AppWindow inherits Window {
             horizontal: false;
         }
 
+        
         StyledStack {
             min-width: 500px;
             stack-spacing: 20px;
             background: rgb(0, 0, 0, 0.2);
-            
-            ref := LabeledInput {
-                required: true;
-                label: "Reference";
-                label-width: 80px;
-                input-placeholder: "...";
-            }
-            pw := FillableInput {
-                required: true;
-                label: "Password";
-                input: suggested-password;
-                label-width: 80px;
-                input-placeholder: "...";
-
-                fill => { generate-password() }
-            }
-            descr := LabeledText {
-                label: "Description";
-                area-width: 280px;
-            }
-            StyledButton {
-                button-text: "Save";
-                button-click => { save-password(ref.value, pw.value, descr.value) }
-            }
-
-            Break {
-                color: red;
-            }
 
             Text {
-                text: read-items;
+                text: "Test";
             }
         }
     }
-   
+
     Feedback {
         is-open: is-open;
         out-text: feedback-out;
